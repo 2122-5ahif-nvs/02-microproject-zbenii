@@ -9,8 +9,3 @@ Die Firmen haben Verträge, Shops (Geschäftsräume) etc. und diese müssen alle
 System verwaltet werden, falls z.B.: Änderungen wie Schließung eines Geschäfts, gemacht werden müssen.  
 Zusätzlich hat man einen Überblick auf Firmendaten wie Leihkosten oder Geschäftsraumgröße.
 
-## Klassendiagramm
-![class Diagramm](images/cld.png)
-
-## Use Case Diagramm
-![usecase Diagramm](images/uc.png)
