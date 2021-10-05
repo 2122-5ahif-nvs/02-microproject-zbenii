@@ -1,0 +1,104 @@
+= Center Manager
+Benjamin Besic
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// https://fontawesome.com/v4.7.0/icons/
+//icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
+//icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
+//icon:home[link=https://htl-leonding.github.io/]
+endif::backend-html5[]
+
+// print the toc here (not at the default position)
+//toc::[]
+
+== Beschreibung
+Center Manager ist ein RestService, der für das Managen der Plus-City
+geschrieben wird.
+Er verwaltet mit CRUD Operationen die Firmen der Plus City.
+Die Firmen haben Verträge, Shops (Geschäftsräume) etc. und diese müssen alle in einem
+System verwaltet werden, falls z.B.: Änderungen wie Schließung eines Geschäfts, gemacht werden müssen.
+Zusätzlich hat man einen Überblick auf Firmendaten wie Leihkosten oder Geschäftsraumgröße.
+
+== Klassendiagramm
+[plantuml]
+----
+@startuml
+
+class Shop{
+-Id: int
+-sizeM2: double
+-floor: String
+}
+
+class Company{
+-name: String
+-category: CompCategory
+-employeeAmount: int
+}
+
+class Contract {
+ -contractSigned: LocalDateTime
+ -contractEnd: LocalDateTime
+ -company: Company
+ -rentalCost: double
+ -company: Shop
+ -currency: String
+}
+
+
+enum CompCategory {
+    FOOD
+    CLOTHING
+    TECHNOLOGY
+    MEDICINE
+    SPORTS
+    GASTRONOMY
+    COSMETIC
+    ENTERTAINMENT
+    JEWELRY
+    LIVING_AND_HOUSEHOLD
+}
+
+top to bottom direction
+Company "*" -r-> "1" CompCategory : is in
+Company "1" -l-> "*" Contract : signs
+Contract "*" -l-> "1" Shop : rents
+
+
+
+@enduml
+----
+
+== Use Case Diagramm
+[plantuml]
+----
+@startuml
+left to right direction
+:admin:
+:user:
+
+rectangle "Center Manager"{
+admin -d- (create Contract)
+admin -d- (change Contract)
+(change Contract) .. (extend) : <<include>>
+(change Contract) .. (terminate) : <<include>>
+(change Contract) .. (change Shop) : <<include>>
+
+user -d- (see how many shops a company has)
+user -d- (see the total rent cost of company)
+user -d- (see total rented space of company)
+}
+@enduml
+----
+
+
+
+
