@@ -6,6 +6,7 @@
 BUILD_DIR="gh-pages"
 OLD=$(pwd)
 ORIGIN_URL=$(git config --get remote.origin.url)
+${PWD}/build-html-docker.sh
 cd $BUILD_DIR
 git init
 git add .
