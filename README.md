@@ -3,7 +3,7 @@ Author: Benjamin Besic
 
 ## Beschreibung
 Center Manager ist ein RestService, der für das Managen der Plus-City
-geschrieben wird.   
+geschrieben wird. 
 Er verwaltet mit CRUD Operationen die Firmen der Plus City.  
 Die Firmen haben Verträge, Shops (Geschäftsräume) etc. und diese müssen alle in einem
 System verwaltet werden, falls z.B.: Änderungen wie Schließung eines Geschäfts, gemacht werden müssen.  
