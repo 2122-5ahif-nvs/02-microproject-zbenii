@@ -1,0 +1,16 @@
+{
+  "company": {
+    "category": "TECHNOLOGY",
+    "employeeAmount": 20,
+    "name": "MediaMarkt"
+  },
+  "contractEnd": "2021-02-03",
+  "contractSigned": "2010-02-03",
+  "currency": "€",
+  "rentalCost": 30100.5,
+  "shop": {
+    "floor": "2OG",
+    "id": 5,
+    "sizeM2": 620.3
+  }
+}

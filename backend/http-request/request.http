@@ -1,0 +1,67 @@
+GET http://localhost:8080/shops
+Accept: application/json
+
+###
+GET http://localhost:8080/rentalRooms/0
+Accept: application/json
+
+###
+
+POST http://localhost:8080/companies
+Content-Type: application/json
+
+{
+  "name": "L Sports",
+  "category": "SPORTS",
+  "employeeAmount": 20
+}
+
+###
+
+DELETE http://localhost:8080/companies/XXL Sports
+Content-Type: application/json
+
+###
+//Update with Put
+PUT http://localhost:8080/companies/XXL Sports
+Content-Type: application/json
+
+{
+  "name": "XXL Sports",
+  "category": "SPORTS",
+  "employeeAmount": 25
+}
+
+###
+
+//Update with Patch doesn't work, throws exceptions
+PATCH http://localhost:8080/companies/XXL Sports
+Content-Type:  application/json-patch+json
+
+{
+  "op":"replace",
+  "path":"/employeeAmount",
+  "value":"25"
+}
+
+###
+
+//Query Param
+GET http://localhost:8080/contracts/byCompany?compName=mediamarkt
+Accept: application/json
+
+###
+
+//Return multiple objects for mediamarkt
+GET http://localhost:8080/contracts/byCompany/mediamarkt
+
+###
+
+POST http://localhost:8080/companies/multiple
+Content-Type: application/json
+
+[
+  {"category":"TECHNOLOGY","employeeAmount":2,"name":"Technikmarkt"},
+  {"category":"GASTRONOMY","employeeAmount":5,"name":"Vapiano"},
+  {"category":"CLOTHING","employeeAmount":9,"name":"BlueTomato"}
+]

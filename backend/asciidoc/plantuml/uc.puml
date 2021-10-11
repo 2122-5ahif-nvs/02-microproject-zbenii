@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+:admin:
+:user:
+
+rectangle "Center Manager"{
+admin -d- (create Contract)
+admin -d- (change Contract)
+(change Contract) .. (extend) : <<include>>
+(change Contract) .. (terminate) : <<include>>
+(change Contract) .. (change Shop) : <<include>>
+
+user -d- (see how many shops a company has)
+user -d- (see the total rent cost of company)
+user -d- (see total rented space of company)
+}
+@enduml

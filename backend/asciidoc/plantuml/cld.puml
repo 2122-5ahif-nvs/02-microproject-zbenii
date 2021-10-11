@@ -1,0 +1,45 @@
+@startuml
+
+class Shop{
+-Id: int
+-sizeM2: double
+-floor: String
+}
+
+class Company{
+-name: String
+-category: CompCategory
+-employeeAmount: int
+}
+
+class Contract {
+ -contractSigned: LocalDateTime
+ -contractEnd: LocalDateTime
+ -company: Company
+ -rentalCost: double
+ -company: Shop
+ -currency: String
+}
+
+
+enum CompCategory {
+    FOOD
+    CLOTHING
+    TECHNOLOGY
+    MEDICINE
+    SPORTS
+    GASTRONOMY
+    COSMETIC
+    ENTERTAINMENT
+    JEWELRY
+    LIVING_AND_HOUSEHOLD
+}
+
+top to bottom direction
+Company "*" -r-> "1" CompCategory : is in
+Company "1" -l-> "*" Contract : signs
+Contract "*" -l-> "1" Shop : rents
+
+
+
+@enduml
