@@ -6,7 +6,10 @@ import at.htl.centermanager.LocalDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
@@ -22,6 +25,7 @@ import java.util.Objects;
         @NamedQuery(name = "Contract.getShopsByCompName", query = "select co.shop from Contract co where upper( co.company.name) like ?1"),
         @NamedQuery(name = "Contract.getInfoByCompName", query = "select co,co.shop from Contract co where upper( co.company.name) like ?1")
 })
+@Schema(description = "This is a contract for a specific company and shop")
 public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,21 +34,30 @@ public class Contract {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @Column(name = "DATE_SIGNED")
+    @JsonbProperty("contract_signed")
+    @JsonbDateFormat("yyyy-MM-dd")
+    @Schema(implementation = String.class, format = "date",required = true)
     private LocalDate contractSigned;
 
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @Column(name = "DATE_END")
+    @JsonbProperty("contract_end")
+    @JsonbDateFormat("yyyy-MM-dd")
+    @Schema(implementation = String.class, format = "date",required = true)
     private LocalDate contractEnd;
 
     @ManyToOne
+    @Schema(required = true)
     private Shop shop;
 
     @Column(name = "RENT_COST")
+    @JsonbProperty("rental_cost")
     private double rentalCost;
 
     @ManyToOne
     @JoinColumn(name = "company_name")
+    @Schema(required = true)
     private Company company;
 
     public String getCurrency() {
@@ -55,6 +68,7 @@ public class Contract {
         this.currency = currency;
     }
 
+    @Schema(format = "currency")
     private String currency;
 
     public Contract(LocalDate contractSigned, LocalDate contractEnd, Shop shop, double rentalCost, Company company) {
