@@ -4,8 +4,8 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>at.ac.htl-leonding.leocloud</groupId>
-        <artifactId>leocloud-demo-app</artifactId>
+        <groupId>at.ac.htl-leonding.backend</groupId>
+        <artifactId>center-manager-app</artifactId>
         <version>0.0.1</version>
     </parent>  
     <artifactId>distribution</artifactId>

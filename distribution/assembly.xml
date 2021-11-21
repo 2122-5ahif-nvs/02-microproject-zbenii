@@ -21,7 +21,7 @@
             <outputDirectory>./docker/backend/deployments</outputDirectory>
             <includes>
                 <include>*-runner</include>
-                <include>leocloud-*.jar</include>
+                <include>besic-*.jar</include>
             </includes>
         </fileSet>
         <fileSet>

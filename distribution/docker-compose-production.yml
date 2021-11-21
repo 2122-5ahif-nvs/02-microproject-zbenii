@@ -16,7 +16,7 @@ services:
     volumes:
       - database:/var/lib/
   backend:
-    image: besic-center-manager
+    image: backend
     deploy:
       restart_policy:
         condition: on-failure
