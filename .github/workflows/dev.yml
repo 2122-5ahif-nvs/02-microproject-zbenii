@@ -50,36 +50,9 @@ jobs:
     - name: build quarkus application
       run: |
         mvn -Dquarkus.package.type=uber-jar -Dquarkus-profile=prod -Dbase.href="/" -B package
-
-    - name: install nodejs
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-    - name: install node dependencies
+    - name: build backend docker image
       run: |
-        npm install
-      working-directory: www
-
-    - name: build web application
-      run: npm run build --base="/"
-      working-directory: www
-
-    - name: deploy to distribution folder
-      run: |
-        chmod +x copy-www.sh
-        ./copy-www.sh
-      working-directory: distribution
-
-    - name: build nginx docker image
-      run: |
-        pwd
-        ls -l
-        docker build nginx --tag ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-nginx
-      working-directory: distribution/${{ env.DISTRIBUTION_FOLDER }}
-
-    - name: build appsrv docker image
-      run: |
-        docker build --file appsrv/Dockerfile.jvm appsrv --tag ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-appsrv
+        docker build --file backend/Dockerfile.jvm backend --tag ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-backend
       working-directory: distribution/${{ env.DISTRIBUTION_FOLDER }}        
 
     - name: Log in to the Container registry
@@ -89,9 +62,9 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.REGISTRY_ACCESS_TOKEN }}
 
-    - name: push appsrv docker image
+    - name: push backend docker image
       run: |
-        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-appsrv
+        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }}-backend
       working-directory: distribution/${{ env.DISTRIBUTION_FOLDER }}        
     - name: push nginx docker image
       run: |
@@ -120,37 +93,8 @@ jobs:
         echo "running installation on server..."
         ssh server "cd ~/dist && sudo ./install.sh ${{ github.actor }} ${{ secrets.REGISTRY_ACCESS_TOKEN }} ${{ env.REGISTRY }}/${{ env.IMAGE_REPOSITORY }} ${{ secrets.SERVER_USER }}"
         echo "done $(date)"
-  documentation:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-   
-    - name: create cloud deployment file
-      run: |
-        sed -e 's/\r$//' -i *.sh
-        chmod +x create-deployment.sh
-        ./create-deployment.sh ${{ github.actor }} ${{ secrets.EMAIL }}
-        cat deployment.yaml
-        mkdir -p ../documentation/slides
-        cp deployment.yaml ../documentation/slides
-      working-directory: k8s
-
-    - name: asciidoctor
-      run: |
-        sed -e 's/\r$//' -i *.sh
-        chmod +x *.sh
-        ./build-doc.sh
-      working-directory: documentation/slides
-
-    - name: Deploy to Github Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./documentation/slides/html
-
   bye:
     needs:
-      - documentation
       - build
     runs-on: ubuntu-latest
     steps:

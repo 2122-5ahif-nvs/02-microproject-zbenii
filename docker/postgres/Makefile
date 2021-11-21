@@ -16,7 +16,7 @@ clean:
 dropdb:
 	$(MAKE) stop
 	docker container prune -f
-	docker volume rm mysql_database
+	docker volume rm postgres_database
 
 .PHONY: cleanall all stop dropdb deploy
 

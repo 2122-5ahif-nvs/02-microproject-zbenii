@@ -1,23 +1,22 @@
 # docker file for local development and debugging
 version: '3.3'
 services:
-  mysql:
-    image: mysql:8
+  postgres-db:
+    image: postgres:12.4
+    container_name: postgres-db
     environment:
-      MYSQL_DATABASE: 'db'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
-      MYSQL_ROOT_HOST: '%'
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=app
+      - POSTGRES_DB=db
     ports:
-      - 3306:3306
+      - 5432:5432
     expose:
-      - 3306
+      - 5432
     volumes:
       - database:/var/lib/
-  appsrv:
+  backend:
     build: 
-      context: ./appsrv
+      context: ./backend
       dockerfile: Dockerfile.jvm
     deploy:
       restart_policy:
@@ -29,15 +28,5 @@ services:
       - 8080
     depends_on:
       - mysql
-  nginx:
-    build: nginx
-    deploy:
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-    ports:
-      - 4000:80
-    depends_on:
-      - appsrv
 volumes:
   database:
