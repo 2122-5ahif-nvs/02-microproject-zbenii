@@ -129,9 +129,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <parameters>${maven.compiler.parameters}</parameters>
                 </configuration>
             </plugin>
         </plugins>

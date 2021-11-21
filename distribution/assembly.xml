@@ -10,15 +10,15 @@
 
     <fileSets>
         <fileSet>
-            <directory>../appsrv/docker/</directory>
-            <outputDirectory>./docker/appsrv/</outputDirectory>
+            <directory>../backend/docker/</directory>
+            <outputDirectory>./docker/backend/</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../appsrv/target</directory>
-            <outputDirectory>./docker/appsrv/deployments</outputDirectory>
+            <directory>../backend/target</directory>
+            <outputDirectory>./docker/backend/deployments</outputDirectory>
             <includes>
                 <include>*-runner</include>
                 <include>leocloud-*.jar</include>
